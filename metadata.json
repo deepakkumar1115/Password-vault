@@ -1,0 +1,6 @@
+{
+  "name": "Secure Vault Landing Page",
+  "description": "Premium landing page for Secure Vault, a 100% offline, zero-knowledge password and credential storage Android application.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,6 @@
+This is a placeholder for the actual Secure Vault Android APK file. 
+
+To link your actual APK:
+1. Build/export your Android project to generate the .apk file (e.g. app-release.apk).
+2. Replace this placeholder file inside the `/public` directory with your real .apk file, ensuring it is named `secure-vault-v1.2.0.apk` (or update the filename reference in /index.html).
+3. When users visit your website and click download, their browser will download your real APK!

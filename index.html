@@ -1,0 +1,1864 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Secure Vault | 100% Offline Password Manager</title>
+  
+  <!-- Inter, Space Grotesk, JetBrains Mono Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS Play CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              dark: '#0A0A0B',
+              card: '#16161E',
+              purple: '#9D8DF1',
+              purpleLight: '#D0BFFF',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Space Grotesk', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.js"></script>
+
+  <style>
+    /* Custom Scrollbar for Phone Simulator */
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: rgba(157, 141, 241, 0.2);
+      border-radius: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: rgba(157, 141, 241, 0.4);
+    }
+    
+    /* Hide scrollbar for category pills container */
+    .scrollbar-none::-webkit-scrollbar {
+      display: none;
+    }
+    .scrollbar-none {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* Elegant Pulse Animation for Glow */
+    @keyframes slow-glow {
+      0%, 100% { opacity: 0.15; transform: scale(1); }
+      50% { opacity: 0.25; transform: scale(1.1); }
+    }
+    .animate-slow-glow {
+      animation: slow-glow 8s infinite ease-in-out;
+    }
+  </style>
+</head>
+<body class="bg-[#0A0A0B] text-slate-300 font-sans antialiased selection:bg-[#9D8DF1] selection:text-[#0A0A0B]">
+
+  <!-- BACKGROUND GLOWS -->
+  <div class="fixed top-0 left-1/4 w-[500px] h-[500px] bg-[#9D8DF1]/5 blur-[150px] rounded-full pointer-events-none animate-slow-glow z-0"></div>
+  <div class="fixed bottom-0 right-1/4 w-[500px] h-[500px] bg-red-950/5 blur-[150px] rounded-full pointer-events-none animate-slow-glow z-0" style="animation-delay: 4s;"></div>
+
+  <!-- NAVIGATION HEADER -->
+  <header class="sticky top-0 z-40 bg-[#0A0A0B]/80 backdrop-blur-md border-b border-white/5 transition-all">
+    <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-2.5">
+        <div class="p-1.5 bg-[#9D8DF1]/10 border border-[#9D8DF1]/20 rounded-lg text-[#9D8DF1]">
+          <i data-lucide="shield" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <span class="font-bold text-white font-display uppercase tracking-wider text-xs md:text-sm">Secure Vault</span>
+          <span class="text-[9px] text-[#D0BFFF]/60 font-mono tracking-widest uppercase block mt-0.5">100% Offline Trust</span>
+        </div>
+      </div>
+
+      <nav class="hidden md:flex items-center gap-8 text-xs font-medium text-slate-400 uppercase tracking-widest">
+        <a href="#features" class="hover:text-white transition-colors">Features</a>
+        <a href="#security" class="hover:text-white transition-colors">Security</a>
+        <a href="#app-sandbox" class="hover:text-white transition-colors">Simulator</a>
+        <a href="#faq" class="hover:text-white transition-colors">FAQ</a>
+      </nav>
+
+      <div>
+        <button onclick="openDownloadModal(true)" class="px-4 py-2.5 bg-[#9D8DF1] hover:bg-[#b1a4f5] text-[#0A0A0B] rounded-xl text-xs font-bold tracking-wide transition-all active:scale-[0.98] shadow-md shadow-[#9D8DF1]/10 flex items-center gap-1.5">
+          <i data-lucide="download" class="w-3.5 h-3.5 stroke-[2.5]"></i>
+          <span>Download APK</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="relative py-20 md:py-28 overflow-hidden z-10">
+    <div class="max-w-4xl mx-auto px-6 text-center space-y-8 relative">
+      
+      <!-- Mini Badge -->
+      <div class="inline-flex items-center gap-2 px-3 py-1 bg-[#9D8DF1]/10 border border-[#9D8DF1]/20 rounded-full text-xs text-[#D0BFFF] font-mono shadow-md">
+        <i data-lucide="wifi-off" class="w-3.5 h-3.5"></i>
+        <span>100% Offline & Zero-Network</span>
+      </div>
+
+      <h1 class="text-4xl md:text-6xl font-display font-bold text-white tracking-tight leading-none">
+        Take Control Of Your Credentials.<br>
+        <span class="text-[#D0BFFF]">No Cloud Necessary.</span>
+      </h1>
+
+      <p class="text-slate-400 text-sm md:text-base max-w-2xl mx-auto leading-relaxed">
+        Secure Vault is an open-source, hardware-encrypted local password manager for Android. We request exactly zero network permissions. No cloud servers, no central databases, and absolutely no remote backdoors.
+      </p>
+
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+        <button onclick="openDownloadModal(true)" class="w-full sm:w-auto px-8 py-4 bg-[#9D8DF1] hover:bg-[#b1a4f5] text-[#0A0A0B] rounded-2xl text-sm font-bold tracking-wide shadow-lg shadow-[#9D8DF1]/10 active:scale-[0.98] transition-all flex items-center justify-center gap-2">
+          <i data-lucide="download" class="w-4.5 h-4.5 stroke-[2.5]"></i>
+          <span>Download Android APK</span>
+        </button>
+        <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl text-sm font-bold tracking-wide active:scale-[0.98] transition-all flex items-center justify-center gap-2 text-slate-300 hover:text-white">
+          <i data-lucide="github" class="w-4.5 h-4.5"></i>
+          <span>View Source on GitHub</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES SECTION -->
+  <section class="py-24 bg-gradient-to-b from-[#16161E] to-[#0A0A0B] relative border-t border-white/5" id="features">
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#9D8DF1]/5 blur-[120px] rounded-full pointer-events-none"></div>
+
+    <div class="max-w-6xl mx-auto px-6 relative z-10">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <div class="inline-flex items-center gap-2 px-3 py-1 bg-[#9D8DF1]/10 border border-[#9D8DF1]/20 rounded-full text-xs text-[#D0BFFF] font-mono mb-4">
+          <i data-lucide="lock" class="w-3.5 h-3.5"></i>
+          <span>Military-Grade Cryptography</span>
+        </div>
+        <h2 class="text-3xl md:text-4xl font-display font-bold text-white">
+          Hardened Offline Security <span class="text-[#D0BFFF]">By Design</span>
+        </h2>
+        <p class="text-slate-400 mt-4 text-sm leading-relaxed">
+          Secure Vault replaces vulnerable server architectures with local cryptographic sandboxes. We do not trust cloud storage, and neither should you.
+        </p>
+      </div>
+
+      <!-- Features Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        
+        <!-- Card 1 -->
+        <div class="bg-[#16161E] border border-white/5 hover:border-[#9D8DF1]/20 rounded-2xl p-6 hover:bg-[#16161E]/80 transition-all group flex flex-col justify-between">
+          <div>
+            <div class="p-3 bg-[#9D8DF1]/10 border border-[#9D8DF1]/20 text-[#D0BFFF] rounded-xl w-fit group-hover:scale-105 transition-transform duration-300 mb-5 shadow-[0_4px_12px_rgba(157,141,241,0.05)]">
+              <i data-lucide="wifi-off" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-lg font-semibold font-display text-white group-hover:text-[#D0BFFF] transition-colors">100% Offline & Zero-Network</h3>
+            <p class="text-slate-400 text-xs md:text-sm mt-3 leading-relaxed">
+              Our Android package requests exactly zero internet permissions. There is no code capable of initiating socket connections, guaranteeing that your credentials can never leave your device.
+            </p>
+          </div>
+          <div class="mt-5 pt-3 border-t border-white/5 flex items-center gap-1 text-[11px] font-mono text-[#D0BFFF]/75 group-hover:text-[#D0BFFF] transition-colors">
+            <span>LOCAL SANDBOX</span>
+            <span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="bg-[#16161E] border border-white/5 hover:border-[#9D8DF1]/20 rounded-2xl p-6 hover:bg-[#16161E]/80 transition-all group flex flex-col justify-between">
+          <div>
+            <div class="p-3 bg-[#9D8DF1]/10 border border-[#9D8DF1]/20 text-[#D0BFFF] rounded-xl w-fit group-hover:scale-105 transition-transform duration-300 mb-5 shadow-[0_4px_12px_rgba(157,141,241,0.05)]">
+              <i data-lucide="cpu" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-lg font-semibold font-display text-white group-hover:text-[#D0BFFF] transition-colors">Hardware-Backed Encryption</h3>
+            <p class="text-slate-400 text-xs md:text-sm mt-3 leading-relaxed">
+              Secure Vault leverages the Android Keystore system. It integrates with Android's Trusted Execution Environment (TEE) or StrongBox keymaster to protect your master secrets inside hardware.
+            </p>
+          </div>
+          <div class="mt-5 pt-3 border-t border-white/5 flex items-center gap-1 text-[11px] font-mono text-[#D0BFFF]/75 group-hover:text-[#D0BFFF] transition-colors">
+            <span>LOCAL SANDBOX</span>
+            <span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="bg-[#16161E] border border-white/5 hover:border-[#9D8DF1]/20 rounded-2xl p-6 hover:bg-[#16161E]/80 transition-all group flex flex-col justify-between">
+          <div>
+            <div class="p-3 bg-[#9D8DF1]/10 border border-[#9D8DF1]/20 text-[#D0BFFF] rounded-xl w-fit group-hover:scale-105 transition-transform duration-300 mb-5 shadow-[0_4px_12px_rgba(157,141,241,0.05)]">
+              <i data-lucide="fingerprint" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-lg font-semibold font-display text-white group-hover:text-[#D0BFFF] transition-colors">Instant Biometric Lock</h3>
+            <p class="text-slate-400 text-xs md:text-sm mt-3 leading-relaxed">
+              Fast, convenient authentication using Fingerprint or FaceID. When you exit or the screen dims, cryptographic keys are instantly scrubbed and wiped from active system RAM.
+            </p>
+          </div>
+          <div class="mt-5 pt-3 border-t border-white/5 flex items-center gap-1 text-[11px] font-mono text-[#D0BFFF]/75 group-hover:text-[#D0BFFF] transition-colors">
+            <span>LOCAL SANDBOX</span>
+            <span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="bg-[#16161E] border border-white/5 hover:border-[#9D8DF1]/20 rounded-2xl p-6 hover:bg-[#16161E]/80 transition-all group flex flex-col justify-between">
+          <div>
+            <div class="p-3 bg-[#9D8DF1]/10 border border-[#9D8DF1]/20 text-[#D0BFFF] rounded-xl w-fit group-hover:scale-105 transition-transform duration-300 mb-5 shadow-[0_4px_12px_rgba(157,141,241,0.05)]">
+              <i data-lucide="key" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-lg font-semibold font-display text-white group-hover:text-[#D0BFFF] transition-colors">Local Passphrase Generator</h3>
+            <p class="text-slate-400 text-xs md:text-sm mt-3 leading-relaxed">
+              Stop repeating passwords or relying on cloud generators. Create cryptographically secure 16+ character random passwords completely locally inside the secure sandbox.
+            </p>
+          </div>
+          <div class="mt-5 pt-3 border-t border-white/5 flex items-center gap-1 text-[11px] font-mono text-[#D0BFFF]/75 group-hover:text-[#D0BFFF] transition-colors">
+            <span>LOCAL SANDBOX</span>
+            <span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
+          </div>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="bg-[#16161E] border border-white/5 hover:border-[#9D8DF1]/20 rounded-2xl p-6 hover:bg-[#16161E]/80 transition-all group flex flex-col justify-between">
+          <div>
+            <div class="p-3 bg-[#9D8DF1]/10 border border-[#9D8DF1]/20 text-[#D0BFFF] rounded-xl w-fit group-hover:scale-105 transition-transform duration-300 mb-5 shadow-[0_4px_12px_rgba(157,141,241,0.05)]">
+              <i data-lucide="sliders" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-lg font-semibold font-display text-white group-hover:text-[#D0BFFF] transition-colors">Customizable Security Dials</h3>
+            <p class="text-slate-400 text-xs md:text-sm mt-3 leading-relaxed">
+              Calibrate your threat model. Customize your idle auto-lock timeouts from 1 to 10 minutes and specify clipboard clear delays from 15 to 120 seconds to prevent clipboard sniffing.
+            </p>
+          </div>
+          <div class="mt-5 pt-3 border-t border-white/5 flex items-center gap-1 text-[11px] font-mono text-[#D0BFFF]/75 group-hover:text-[#D0BFFF] transition-colors">
+            <span>LOCAL SANDBOX</span>
+            <span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
+          </div>
+        </div>
+
+        <!-- Card 6 -->
+        <div class="bg-[#16161E] border border-white/5 hover:border-[#9D8DF1]/20 rounded-2xl p-6 hover:bg-[#16161E]/80 transition-all group flex flex-col justify-between">
+          <div>
+            <div class="p-3 bg-[#9D8DF1]/10 border border-[#9D8DF1]/20 text-[#D0BFFF] rounded-xl w-fit group-hover:scale-105 transition-transform duration-300 mb-5 shadow-[0_4px_12px_rgba(157,141,241,0.05)]">
+              <i data-lucide="file-check" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-lg font-semibold font-display text-white group-hover:text-[#D0BFFF] transition-colors">Encrypted Backup Blocks</h3>
+            <p class="text-slate-400 text-xs md:text-sm mt-3 leading-relaxed">
+              No servers means you own your backups. Generate AES-256-GCM encrypted backup blocks which you can safely export, copy, or write down anywhere without compromising security.
+            </p>
+          </div>
+          <div class="mt-5 pt-3 border-t border-white/5 flex items-center gap-1 text-[11px] font-mono text-[#D0BFFF]/75 group-hover:text-[#D0BFFF] transition-colors">
+            <span>LOCAL SANDBOX</span>
+            <span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- SECURITY ARCHITECTURE SECTION -->
+  <section class="py-24 bg-[#0A0A0B] border-t border-white/5 relative overflow-hidden" id="security">
+    <div class="absolute top-10 right-0 w-[400px] h-[400px] bg-[#9D8DF1]/5 blur-[150px] rounded-full pointer-events-none"></div>
+
+    <div class="max-w-6xl mx-auto px-6 relative z-10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        <!-- Core Details -->
+        <div class="lg:col-span-7 space-y-6 text-left">
+          <div class="inline-flex items-center gap-2 px-3 py-1 bg-red-500/10 border border-red-500/20 rounded-full text-xs text-red-300 font-mono">
+            <i data-lucide="server-off" class="w-3.5 h-3.5"></i>
+            <span>Zero-Cloud Dependency</span>
+          </div>
+          
+          <h2 class="text-3xl md:text-5xl font-display font-bold text-white tracking-tight">
+            Cryptographic Integrity.<br>
+            <span class="text-[#D0BFFF]">Absolute Confidentiality.</span>
+          </h2>
+          
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Most modern password managers sync your credentials to remote cloud clusters. Even with end-to-end encryption, this exposes metadata and creates centralized vectors for zero-day exploits. Secure Vault rejects this compromise.
+          </p>
+
+          <div class="space-y-4 text-xs md:text-sm">
+            <div class="flex gap-4">
+              <div class="p-2 bg-[#9D8DF1]/10 border border-[#9D8DF1]/20 text-[#D0BFFF] rounded-lg h-fit flex-shrink-0">
+                <i data-lucide="key-round" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <h4 class="font-semibold text-white font-display">AES-256-GCM Encryption</h4>
+                <p class="text-slate-400 mt-1">
+                  Your database is encrypted locally with AES-256 in Galois/Counter Mode. GCM guarantees both confidentiality and authenticity, preventing any offline tamper attempts.
+                </p>
+              </div>
+            </div>
+
+            <div class="flex gap-4">
+              <div class="p-2 bg-[#9D8DF1]/10 border border-[#9D8DF1]/20 text-[#D0BFFF] rounded-lg h-fit flex-shrink-0">
+                <i data-lucide="refresh-cw" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <h4 class="font-semibold text-white font-display">PBKDF2 Key Derivation</h4>
+                <p class="text-slate-400 mt-1">
+                  Instead of saving your master password, Secure Vault uses PBKDF2 with HMAC-SHA256 and thousands of hashing iterations to derive the database encryption key. This makes brute-force attacks computationally impossible.
+                </p>
+              </div>
+            </div>
+
+            <div class="flex gap-4">
+              <div class="p-2 bg-[#9D8DF1]/10 border border-[#9D8DF1]/20 text-[#D0BFFF] rounded-lg h-fit flex-shrink-0">
+                <i data-lucide="cpu" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <h4 class="font-semibold text-white font-display">Zero Metadata Trail</h4>
+                <p class="text-slate-400 mt-1">
+                  Since there are no sync operations, there are no cloud logs, no trackable access timestamps, and no leakable account creation information.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Warning / Pipeline Column -->
+        <div class="lg:col-span-5">
+          <div class="bg-[#16161E]/40 border border-white/5 rounded-3xl p-6 md:p-8 space-y-6 relative overflow-hidden shadow-2xl">
+            <!-- Glow background -->
+            <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-red-500/10 to-transparent blur-xl"></div>
+            
+            <div class="flex items-center gap-3.5 pb-4 border-b border-white/5">
+              <div class="p-2.5 bg-red-500/10 border border-red-500/20 text-red-400 rounded-2xl">
+                <i data-lucide="alert-triangle" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <h3 class="font-bold text-white font-display text-sm">Critical Security Notice</h3>
+                <p class="text-[10px] text-red-400 uppercase tracking-widest font-mono mt-0.5">Strict Local Zero-Knowledge</p>
+              </div>
+            </div>
+
+            <div class="space-y-4 text-xs">
+              <p class="text-slate-300 leading-relaxed">
+                Secure Vault operates with a strict <strong>Zero-Trust and Zero-Knowledge</strong> local model. 
+              </p>
+              
+              <div class="p-4 bg-red-500/5 border border-red-500/10 rounded-xl space-y-3">
+                <p class="text-xs text-red-200/90 leading-relaxed">
+                  "If you forget your master password, your credentials are <strong>lost permanently</strong>."
+                </p>
+                <p class="text-[11px] text-slate-400 leading-relaxed">
+                  There are no email reset links, no SMS backup codes, and no central databases. Your master key is derived directly on your phone and never transmitted. Secure Vault has no backdoors.
+                </p>
+              </div>
+
+              <!-- Micro Cryptographic Pipeline Display -->
+              <div class="bg-[#0D0D10] border border-white/5 rounded-2xl p-4 space-y-3 font-mono text-[10px] text-slate-400 relative">
+                <div class="flex justify-between items-center text-[8px] text-slate-500 uppercase pb-1.5 border-b border-white/5">
+                  <span>Key Derivation Flow</span>
+                  <span class="text-green-500 flex items-center gap-1">
+                    <span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-ping"></span>
+                    <span>Active</span>
+                  </span>
+                </div>
+                <div class="space-y-2">
+                  <div class="flex justify-between items-center">
+                    <span>[Master Password]</span>
+                    <span id="pipeline-method" class="text-[#9D8DF1]">➜ PBKDF2</span>
+                  </div>
+                  <div class="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
+                    <div id="pipeline-progress" class="bg-[#9D8DF1] h-full w-2/3 transition-all duration-1000"></div>
+                  </div>
+                  <div class="flex justify-between items-center text-[9px]">
+                    <span>Derived Key State:</span>
+                    <span id="pipeline-key" class="text-[#D0BFFF] break-all select-all font-bold">aes_key_gcm_256...</span>
+                  </div>
+                  
+                  <div class="flex justify-between items-center pt-1 border-t border-white/5">
+                    <span>Database Storage:</span>
+                    <span class="text-red-400">100% Offline Locked</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="text-center pt-2">
+                <span class="text-[11px] text-slate-500 font-mono uppercase tracking-widest block">🔒 AES-256 Local Encrypted</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- INTERACTIVE SIMULATOR SECTION -->
+  <section class="py-24 bg-gradient-to-b from-[#0A0A0B] to-[#16161E] border-t border-white/5 relative" id="app-sandbox">
+    <div class="max-w-6xl mx-auto px-6 relative z-10">
+      
+      <div class="flex flex-col lg:flex-row gap-12 items-center justify-center">
+        
+        <!-- Walkthrough Panel (Left) -->
+        <div class="lg:w-5/12 flex flex-col justify-center space-y-6 text-left">
+          <div class="inline-flex items-center gap-2 px-3 py-1 bg-[#9D8DF1]/10 border border-[#9D8DF1]/20 rounded-full text-xs text-[#D0BFFF] font-mono w-fit">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5 animate-pulse"></i>
+            <span>Interactive App Sandbox</span>
+          </div>
+          <h2 class="text-3xl md:text-4xl font-display font-bold text-white tracking-tight leading-tight">
+            Try Secure Vault <span class="text-[#D0BFFF]">Live in Your Browser</span>
+          </h2>
+          <p class="text-slate-400 text-sm md:text-base leading-relaxed">
+            We rebuilt the Android native interface to demonstrate our zero-knowledge architecture. No packets leave your browser—every operation, key derivation, and password generation happens 100% client-side.
+          </p>
+
+          <!-- Feature Walkthrough Tabs -->
+          <div class="space-y-4">
+            
+            <div class="p-4 bg-[#16161E]/40 border border-white/5 rounded-xl hover:border-[#9D8DF1]/20 transition-all group">
+              <div class="flex gap-3">
+                <div class="p-2 bg-[#9D8DF1]/10 border border-[#9D8DF1]/20 text-[#D0BFFF] rounded-lg group-hover:scale-105 transition-transform">
+                  <i data-lucide="lock-keyhole" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <h3 class="text-sm font-semibold text-white font-display">1. Unlock & Derive Keys</h3>
+                  <p class="text-xs text-slate-400 mt-1">
+                    Type a simulated master password or click the fingerprint icon to derive AES-256 keys. Check out the loss warning block.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-4 bg-[#16161E]/40 border border-white/5 rounded-xl hover:border-[#9D8DF1]/20 transition-all group">
+              <div class="flex gap-3">
+                <div class="p-2 bg-[#9D8DF1]/10 border border-[#9D8DF1]/20 text-[#D0BFFF] rounded-lg group-hover:scale-105 transition-transform">
+                  <i data-lucide="folder-lock" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <h3 class="text-sm font-semibold text-white font-display">2. Manage & Copy Safely</h3>
+                  <p class="text-xs text-slate-400 mt-1">
+                    Use category pills to filter. Click the eye icon to reveal secrets or the copy icon to clipboard. Click the gear to access settings.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-4 bg-[#16161E]/40 border border-white/5 rounded-xl hover:border-[#9D8DF1]/20 transition-all group">
+              <div class="flex gap-3">
+                <div class="p-2 bg-[#9D8DF1]/10 border border-[#9D8DF1]/20 text-[#D0BFFF] rounded-lg group-hover:scale-105 transition-transform">
+                  <i data-lucide="sliders" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <h3 class="text-sm font-semibold text-white font-display">3. Customize Security & Export</h3>
+                  <p class="text-xs text-slate-400 mt-1">
+                    Click the <i data-lucide="plus" class="inline w-3 h-3 text-[#D0BFFF]"></i> button to access the local Passphrase Generator, or open Settings to customize auto-locks and generate encrypted backup blocks.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Android Device Container (Right) -->
+        <div class="lg:w-7/12 flex justify-center w-full">
+          <div class="relative w-full max-w-[370px] aspect-[9/18.5] bg-[#1a1a1f] rounded-[48px] p-3.5 shadow-2xl border-[6px] border-[#292931] ring-12 ring-black/55 overflow-hidden flex flex-col justify-between">
+            
+            <!-- Device Camera Punch Hole -->
+            <div class="absolute top-5 left-1/2 -translate-x-1/2 w-4 h-4 bg-[#0a0a0c] rounded-full z-50 border border-[#222] flex items-center justify-center">
+              <div class="w-1.5 h-1.5 bg-[#1a233a] rounded-full"></div>
+            </div>
+
+            <!-- Android Status Bar -->
+            <div class="h-6 flex items-center justify-between px-6 text-[10px] text-slate-400 font-mono select-none z-30 pt-1">
+              <div>
+                <span id="simulator-clock">22:52</span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <span class="text-[9px] bg-[#9D8DF1]/10 text-[#D0BFFF] border border-[#9D8DF1]/20 px-1 rounded-sm uppercase tracking-wider font-bold">100% Offline</span>
+                <i data-lucide="wifi-off" class="w-3.5 h-3.5 text-[#D0BFFF]"></i>
+                <i data-lucide="battery-charging" class="w-3.5 h-3.5 text-[#D0BFFF]"></i>
+                <span>28%</span>
+              </div>
+            </div>
+
+            <!-- Simulated App Screen Canvas -->
+            <div class="flex-1 bg-[#0A0A0B] rounded-[36px] overflow-hidden relative flex flex-col mt-1 select-none text-left">
+              
+              <!-- KEY DERIVATION LOADER STATE -->
+              <div id="sim-keyloader" class="absolute inset-0 bg-[#0A0A0B] z-50 flex flex-col items-center justify-center hidden">
+                <div class="relative w-12 h-12 flex items-center justify-center">
+                  <i data-lucide="refresh-cw" class="w-10 h-10 text-[#9D8DF1] animate-spin"></i>
+                </div>
+                <p class="text-xs font-semibold text-white font-display mt-4">Stretching Secret Key...</p>
+                <p class="text-[9px] text-[#D0BFFF] font-mono mt-1 uppercase tracking-widest">PBKDF2 HMAC-SHA256</p>
+              </div>
+
+              <!-- SCREEN 1: LOCK SCREEN -->
+              <div id="sim-screen-lock" class="flex-grow flex flex-col justify-between p-5 overflow-y-auto">
+                <div class="flex flex-col items-center mt-6 text-center space-y-4">
+                  <div class="p-4 bg-[#9D8DF1]/10 border border-[#9D8DF1]/20 text-[#D0BFFF] rounded-full shadow-[0_0_15px_rgba(157,141,241,0.15)] relative">
+                    <i data-lucide="lock-keyhole" class="w-12 h-12 stroke-[1.5]"></i>
+                  </div>
+                  <h1 class="text-2xl font-semibold tracking-wide font-display text-white mt-2">Vault is Encrypted</h1>
+                  <p class="text-[11px] text-slate-400 leading-relaxed px-2">
+                    Enter your master password. Cryptographic keys are derived dynamically and completely wiped on lock.
+                  </p>
+                </div>
+
+                <!-- Warning Block inside app -->
+                <div class="my-4 p-3 bg-red-950/20 border border-red-900/40 rounded-xl flex gap-2.5 items-start">
+                  <i data-lucide="alert-triangle" class="w-4 h-4 text-red-400 mt-0.5 flex-shrink-0"></i>
+                  <p class="text-[10px] text-red-200/90 leading-relaxed">
+                    Your database cannot be recovered if you lose this master key. No backdoor sync.
+                  </p>
+                </div>
+
+                <!-- Master Password Input panel -->
+                <div class="bg-[#16161E]/60 border border-white/5 rounded-2xl p-4 space-y-3 shadow-md">
+                  <div class="relative">
+                    <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#9D8DF1]">
+                      <i data-lucide="lock" class="w-4 h-4"></i>
+                    </span>
+                    <input
+                      id="master-pwd-input"
+                      type="password"
+                      placeholder="Master Password"
+                      class="w-full bg-[#16161E]/80 border border-white/5 rounded-xl py-2.5 pl-10 pr-10 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#9D8DF1] transition-all font-sans"
+                    >
+                    <button
+                      type="button"
+                      onclick="toggleMasterPasswordVisibility()"
+                      class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300"
+                    >
+                      <i id="master-pwd-toggle-icon" data-lucide="eye" class="w-3.5 h-3.5"></i>
+                    </button>
+                  </div>
+
+                  <div class="flex gap-2">
+                    <button
+                      onclick="simUnlock()"
+                      class="flex-grow bg-[#9D8DF1] hover:brightness-110 text-[#0A0A0B] font-semibold text-xs py-2.5 px-4 rounded-xl flex items-center justify-center gap-1.5 active:scale-[0.98] transition-all font-display shadow-lg shadow-[#9D8DF1]/10"
+                    >
+                      <i data-lucide="lock" class="w-3.5 h-3.5 stroke-[2.5]"></i>
+                      <span>Derive Key & Unlock</span>
+                    </button>
+
+                    <!-- Fingerprint Scan Trigger -->
+                    <button
+                      id="fingerprint-scan-btn"
+                      onclick="simBiometricUnlock()"
+                      title="Simulate Fingerprint Scan"
+                      class="p-2.5 bg-white/5 border border-white/10 rounded-xl text-[#D0BFFF] hover:bg-white/10 active:scale-95 transition-all flex-shrink-0 flex items-center justify-center"
+                    >
+                      <i data-lucide="fingerprint" class="w-4 h-4 stroke-[2]"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Danger Wipe action inside simulator -->
+                <div class="text-center mt-4">
+                  <button
+                    onclick="simWipeVault()"
+                    class="text-[10px] text-red-500/80 hover:text-red-400 underline decoration-dashed underline-offset-4 cursor-pointer font-mono inline-flex items-center gap-1"
+                  >
+                    <span>🗑️ DANGER: Wipe Vault & Reset App</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- SCREEN 2: DASHBOARD SCREEN -->
+              <div id="sim-screen-dashboard" class="flex-grow flex flex-col justify-between relative overflow-hidden hidden">
+                <!-- Dashboard Header -->
+                <div class="p-4 border-b border-white/5 flex items-center justify-between bg-[#16161E]/20">
+                  <div>
+                    <h2 class="text-xs font-bold font-display text-white tracking-widest uppercase">Secure Vault</h2>
+                    <p class="text-[8px] text-[#D0BFFF] font-mono tracking-widest uppercase mt-0.5">Offline AES-256 Storage</p>
+                  </div>
+                  <div class="flex items-center gap-1.5">
+                    <button
+                      onclick="simGoToScreen('settings')"
+                      class="p-1.5 bg-white/5 hover:bg-white/10 rounded-lg text-slate-400 hover:text-white transition-all"
+                    >
+                      <i data-lucide="settings" class="w-3.5 h-3.5"></i>
+                    </button>
+                    <button
+                      onclick="simLock()"
+                      class="p-1.5 bg-white/5 hover:bg-white/10 rounded-lg text-red-400 hover:text-red-300 transition-all"
+                      title="Lock Vault"
+                    >
+                      <i data-lucide="lock" class="w-3.5 h-3.5"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Dashboard Content Scroll -->
+                <div class="flex-grow p-4 space-y-4 overflow-y-auto max-h-[380px] custom-scrollbar">
+                  
+                  <!-- Encryption Badge info -->
+                  <div class="bg-[#16161E] border border-[#9D8DF1]/20 rounded-xl p-3 flex gap-3 items-center shadow-inner relative overflow-hidden">
+                    <div class="p-2 bg-[#9D8DF1]/10 border border-[#9D8DF1]/20 text-[#D0BFFF] rounded-lg">
+                      <i data-lucide="shield-check" class="w-4 h-4"></i>
+                    </div>
+                    <div class="flex-1">
+                      <div class="flex items-center justify-between">
+                        <span class="text-[10px] font-semibold text-white">Zero-Knowledge Vault</span>
+                        <span class="text-[8px] text-[#D0BFFF] font-bold bg-[#9D8DF1]/10 px-1 border border-[#9D8DF1]/20 rounded shadow-sm">SECURE</span>
+                      </div>
+                      <p class="text-[8px] text-slate-400 mt-0.5">100% Offline & Hardware Encrypted.</p>
+                    </div>
+                  </div>
+
+                  <!-- Live Search Bar -->
+                  <div class="relative">
+                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500">
+                      <i data-lucide="search" class="w-3.5 h-3.5"></i>
+                    </span>
+                    <input
+                      id="search-input"
+                      type="text"
+                      placeholder="Search in vault..."
+                      oninput="onSearchChange(this.value)"
+                      class="w-full bg-[#16161E]/50 border border-white/5 rounded-xl py-2 pl-9 pr-4 text-[10px] text-white focus:outline-none focus:border-[#9D8DF1] transition-all font-sans placeholder-slate-500"
+                    >
+                  </div>
+
+                  <!-- Category Filters -->
+                  <div id="category-pills-container" class="flex gap-1.5 overflow-x-auto pb-1 scrollbar-none text-[9px] -mx-1 px-1">
+                    <!-- Dynamic Pills go here -->
+                  </div>
+
+                  <!-- Dynamic Credential List Container -->
+                  <div id="credentials-list" class="space-y-3 mt-2">
+                    <!-- Dynamic cards go here -->
+                  </div>
+
+                </div>
+
+                <!-- FAB Button for Adding records -->
+                <button
+                  onclick="toggleNewCredentialModal(true)"
+                  class="absolute bottom-4 right-4 w-10 h-10 bg-[#9D8DF1] hover:brightness-110 text-[#0A0A0B] rounded-full flex items-center justify-center shadow-lg active:scale-95 transition-all z-20"
+                  title="Add New Account"
+                >
+                  <i data-lucide="plus" class="w-5 h-5 stroke-[2.5]"></i>
+                </button>
+
+                <!-- SLIDING Bottom Sheet Overlay (NEW CREDENTIAL + PASSPHRASE GENERATOR) -->
+                <div id="sim-modal-overlay" class="absolute inset-0 bg-black/75 backdrop-blur-sm z-40 flex flex-col justify-end hidden">
+                  <div class="bg-[#16161E] border-t border-white/5 rounded-t-[28px] max-h-[92%] overflow-y-auto p-4 space-y-4 text-left">
+                    <div class="flex justify-between items-center pb-2 border-b border-white/5">
+                      <span class="text-xs font-bold font-display text-white uppercase tracking-wider">New Credential</span>
+                      <button
+                        type="button"
+                        onclick="toggleNewCredentialModal(false)"
+                        class="p-1 hover:bg-white/5 rounded-full text-slate-400 hover:text-white"
+                      >
+                        <i data-lucide="x" class="w-4 h-4"></i>
+                      </button>
+                    </div>
+
+                    <!-- New Credential Form inside Simulator -->
+                    <form onsubmit="onSaveCredential(event)" class="space-y-3 text-[10px]">
+                      <!-- Platform name input -->
+                      <div class="space-y-1">
+                        <label class="text-[8px] text-slate-400 uppercase font-mono">Platform / Website Name</label>
+                        <input
+                          id="new-platform-input"
+                          type="text"
+                          required
+                          placeholder="e.g. Google, GitHub, Netflix"
+                          class="w-full bg-[#16161E]/50 border border-white/5 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-[#9D8DF1]"
+                        >
+                      </div>
+
+                      <!-- Username input -->
+                      <div class="space-y-1">
+                        <label class="text-[8px] text-slate-400 uppercase font-mono">Username / Email</label>
+                        <input
+                          id="new-username-input"
+                          type="text"
+                          required
+                          placeholder="e.g. name@domain.com"
+                          class="w-full bg-[#16161E]/50 border border-white/5 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-[#9D8DF1]"
+                        >
+                      </div>
+
+                      <!-- Password input + hide/show toggle -->
+                      <div class="space-y-1">
+                        <label class="text-[8px] text-slate-400 uppercase font-mono">Secret Password</label>
+                        <div class="relative">
+                          <input
+                            id="new-pwd-input"
+                            type="password"
+                            required
+                            placeholder="Password"
+                            class="w-full bg-[#16161E]/50 border border-white/5 rounded-xl pl-3 pr-10 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-[#9D8DF1]"
+                          >
+                          <button
+                            type="button"
+                            onclick="toggleNewPasswordVisibility()"
+                            class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300"
+                          >
+                            <i id="new-pwd-toggle-icon" data-lucide="eye" class="w-3.5 h-3.5"></i>
+                          </button>
+                        </div>
+                      </div>
+
+                      <!-- Category Category Tag slider selector -->
+                      <div class="space-y-1">
+                        <label class="text-[8px] text-slate-400 uppercase font-mono">Category Tag</label>
+                        <div class="flex gap-1">
+                          <button type="button" onclick="setNewCategory('Personal')" id="cat-btn-Personal" class="flex-1 py-1.5 rounded-lg border text-[9px] font-medium transition-all bg-[#9D8DF1]/10 text-[#D0BFFF] border-[#9D8DF1]/20">Personal</button>
+                          <button type="button" onclick="setNewCategory('Work')" id="cat-btn-Work" class="flex-1 py-1.5 rounded-lg border text-[9px] font-medium transition-all bg-[#16161E]/50 text-slate-400 border-white/5 hover:text-white">Work</button>
+                          <button type="button" onclick="setNewCategory('Finance')" id="cat-btn-Finance" class="flex-1 py-1.5 rounded-lg border text-[9px] font-medium transition-all bg-[#16161E]/50 text-slate-400 border-white/5 hover:text-white">Finance</button>
+                          <button type="button" onclick="setNewCategory('Social')" id="cat-btn-Social" class="flex-1 py-1.5 rounded-lg border text-[9px] font-medium transition-all bg-[#16161E]/50 text-slate-400 border-white/5 hover:text-white">Social</button>
+                        </div>
+                      </div>
+
+                      <!-- THE OFFLINE PASSWORD GENERATOR PANEL -->
+                      <div class="border border-[#9D8DF1]/20 bg-[#9D8DF1]/5 rounded-2xl p-3.5 mt-4 space-y-3">
+                        <div class="flex justify-between items-center border-b border-white/5 pb-1.5">
+                          <span class="text-[9px] font-bold text-[#D0BFFF] font-mono tracking-wider uppercase">Offline Generator</span>
+                          <span id="generator-copied-status" class="text-[8px] text-green-400 font-bold bg-green-950/20 px-1 border border-green-900/40 rounded hidden">GENERATED</span>
+                        </div>
+
+                        <!-- Length settings slider -->
+                        <div class="space-y-1">
+                          <div class="flex justify-between text-[9px] font-mono text-slate-400">
+                            <span>Length:</span>
+                            <span id="length-val-display" class="text-[#D0BFFF] font-bold">16</span>
+                          </div>
+                          <input
+                            id="gen-length-slider"
+                            type="range"
+                            min="8"
+                            max="32"
+                            value="16"
+                            oninput="onLengthSliderChange(this.value)"
+                            class="w-full h-1 bg-[#16161E] rounded-lg appearance-none cursor-pointer accent-[#9D8DF1]"
+                          >
+                        </div>
+
+                        <!-- Option keys checkboxes tags -->
+                        <div class="grid grid-cols-4 gap-1 text-[8px] font-mono">
+                          <button
+                            type="button"
+                            onclick="toggleGenParam('useUpper')"
+                            id="gen-param-upper"
+                            class="py-1 rounded border text-center transition-all bg-[#9D8DF1]/10 text-[#D0BFFF] border-[#9D8DF1]/20"
+                          >A-Z</button>
+                          <button
+                            type="button"
+                            onclick="toggleGenParam('useLower')"
+                            id="gen-param-lower"
+                            class="py-1 rounded border text-center transition-all bg-[#9D8DF1]/10 text-[#D0BFFF] border-[#9D8DF1]/20"
+                          >a-z</button>
+                          <button
+                            type="button"
+                            onclick="toggleGenParam('useDigits')"
+                            id="gen-param-digits"
+                            class="py-1 rounded border text-center transition-all bg-[#9D8DF1]/10 text-[#D0BFFF] border-[#9D8DF1]/20"
+                          >0-9</button>
+                          <button
+                            type="button"
+                            onclick="toggleGenParam('useSymbols')"
+                            id="gen-param-symbols"
+                            class="py-1 rounded border text-center transition-all bg-[#9D8DF1]/10 text-[#D0BFFF] border-[#9D8DF1]/20"
+                          >!#$</button>
+                        </div>
+
+                        <button
+                          type="button"
+                          onclick="simGenerateSecureString()"
+                          class="w-full bg-[#16161E]/50 hover:bg-[#16161E] border border-[#9D8DF1]/20 text-[#D0BFFF] py-1.5 rounded-lg flex items-center justify-center gap-1.5 text-[9px] font-mono transition-all"
+                        >
+                          <i data-lucide="refresh-cw" class="w-3 h-3 stroke-[2] text-[#9D8DF1]"></i>
+                          <span>Generate Secure String</span>
+                        </button>
+                      </div>
+
+                      <!-- Bottom buttons save / cancel -->
+                      <div class="flex gap-2 pt-2">
+                        <button
+                          type="button"
+                          onclick="toggleNewCredentialModal(false)"
+                          class="flex-1 bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 font-medium py-2 rounded-xl"
+                        >Cancel</button>
+                        <button
+                          type="submit"
+                          class="flex-1 bg-[#9D8DF1]/20 hover:bg-[#9D8DF1]/30 border border-[#9D8DF1]/30 text-[#D0BFFF] font-semibold py-2 rounded-xl"
+                        >Save Secret</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+              <!-- SCREEN 3: SETTINGS SCREEN -->
+              <div id="sim-screen-settings" class="flex-grow flex flex-col justify-between p-4 overflow-y-auto max-h-[420px] custom-scrollbar hidden">
+                <div class="space-y-4 text-left">
+                  
+                  <!-- Back link Header -->
+                  <div class="flex items-center gap-2 border-b border-white/5 pb-3">
+                    <button
+                      onclick="simGoToScreen('dashboard')"
+                      class="p-1 hover:bg-white/5 rounded-lg text-slate-400 hover:text-white"
+                    >
+                      <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+                    </button>
+                    <span class="text-[10px] font-bold font-display text-white tracking-wider uppercase">Security Dials</span>
+                  </div>
+
+                  <!-- Timeout selections buttons grid -->
+                  <div class="space-y-3 text-[10px]">
+                    <div>
+                      <span class="text-[9px] font-bold text-white block">Idle Auto-Lock Timeout</span>
+                      <span class="text-[8px] text-slate-500 block leading-tight">Wipes derived cryptography keys on inactivity</span>
+                      
+                      <div class="grid grid-cols-4 gap-1 mt-1.5 text-[8px] font-mono">
+                        <button onclick="setIdleTimeout('1 min')" id="timeout-btn-1min" class="py-1.5 rounded border text-center transition-all bg-[#16161E]/50 text-slate-500 border-white/5">1 min</button>
+                        <button onclick="setIdleTimeout('2 min')" id="timeout-btn-2min" class="py-1.5 rounded border text-center transition-all bg-[#9D8DF1]/10 text-[#D0BFFF] border-[#9D8DF1]/20">2 min</button>
+                        <button onclick="setIdleTimeout('5 min')" id="timeout-btn-5min" class="py-1.5 rounded border text-center transition-all bg-[#16161E]/50 text-slate-500 border-white/5">5 min</button>
+                        <button onclick="setIdleTimeout('10 min')" id="timeout-btn-10min" class="py-1.5 rounded border text-center transition-all bg-[#16161E]/50 text-slate-500 border-white/5">10 min</button>
+                      </div>
+                    </div>
+
+                    <!-- Clipboard delays pills -->
+                    <div class="pt-1">
+                      <span class="text-[9px] font-bold text-white block">Clipboard Clear Delay</span>
+                      <span class="text-[8px] text-slate-500 block leading-tight">Clears copied credentials from memory after copying</span>
+                      
+                      <div class="grid grid-cols-4 gap-1 mt-1.5 text-[8px] font-mono">
+                        <button onclick="setClipboardDelay('15 sec')" id="delay-btn-15sec" class="py-1.5 rounded border text-center transition-all bg-[#16161E]/50 text-slate-500 border-white/5">15 sec</button>
+                        <button onclick="setClipboardDelay('30 sec')" id="delay-btn-30sec" class="py-1.5 rounded border text-center transition-all bg-[#9D8DF1]/10 text-[#D0BFFF] border-[#9D8DF1]/20">30 sec</button>
+                        <button onclick="setClipboardDelay('60 sec')" id="delay-btn-60sec" class="py-1.5 rounded border text-center transition-all bg-[#16161E]/50 text-slate-500 border-white/5">60 sec</button>
+                        <button onclick="setClipboardDelay('120 sec')" id="delay-btn-120sec" class="py-1.5 rounded border text-center transition-all bg-[#16161E]/50 text-slate-500 border-white/5">120 sec</button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Biometric switch toggle panel -->
+                  <div class="border-t border-white/5 pt-3 text-[10px] space-y-1">
+                    <span class="text-[9px] font-bold text-white block uppercase tracking-wider font-mono">Biometric Unlock</span>
+                    <div class="bg-[#16161E]/50 rounded-xl p-3 border border-white/5 flex items-center justify-between">
+                      <div>
+                        <span class="text-[9px] font-bold text-white block">Convenient Fingerprint / FaceID</span>
+                        <span class="text-[7px] text-slate-500 block">Tap to toggle biometric security key backup</span>
+                      </div>
+                      
+                      <!-- Interactive Toggle switch slider -->
+                      <button
+                        type="button"
+                        onclick="toggleBiometricState()"
+                        class="w-8 h-4.5 rounded-full p-0.5 transition-all flex items-center bg-[#9D8DF1]"
+                        id="biometric-toggle-switch-element"
+                      >
+                        <span id="biometric-toggle-knob" class="w-3.5 h-3.5 rounded-full bg-black shadow transition-transform translate-x-3.5"></span>
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- Master password dropdown trigger simulated info -->
+                  <div class="text-[10px] space-y-1">
+                    <span class="text-[9px] font-bold text-white block uppercase tracking-wider font-mono">Security Lock Keys</span>
+                    <div class="bg-[#16161E]/50 rounded-xl p-2.5 border border-white/5 flex justify-between items-center text-[9px] text-slate-400">
+                      <div>
+                        <span class="text-[9px] font-semibold text-white">Change Master Password</span>
+                        <p class="text-[7px] text-slate-500">Re-encrypt entire secure database with a new cryptokey.</p>
+                      </div>
+                      <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i>
+                    </div>
+                  </div>
+
+                  <!-- Encrypted Backup block export simulator panel -->
+                  <div class="border-t border-white/5 pt-3 text-[10px] space-y-2">
+                    <span class="text-[9px] font-bold text-white block uppercase tracking-wider font-mono">Secure Export</span>
+                    
+                    <button
+                      id="export-btn-element"
+                      onclick="onGenerateBackupBlock()"
+                      class="w-full bg-[#9D8DF1] hover:brightness-110 text-[#0A0A0B] font-bold py-2 rounded-xl flex items-center justify-center gap-1.5 active:scale-95 transition-all text-[9px] font-display"
+                    >
+                      <i id="export-spinner-icon" data-lucide="refresh-cw" class="w-3 h-3"></i>
+                      <span id="export-btn-text">GENERATE ENCRYPTED BACKUP BLOCK</span>
+                    </button>
+
+                    <!-- Textarea representation of AES backup string block -->
+                    <div id="backup-textarea-container" class="space-y-1 hidden">
+                      <div class="flex justify-between items-center">
+                        <span class="text-[8px] text-slate-400 font-mono">Encrypted Backup Block:</span>
+                        <button
+                          onclick="copyTextToClipboard(document.getElementById('backup-textarea-element').value, this, 'backup-block-status')"
+                          class="text-[8px] text-[#D0BFFF] font-bold flex items-center gap-1 hover:underline"
+                        >
+                          <i data-lucide="copy" class="w-2.5 h-2.5"></i>
+                          <span id="backup-block-status">Copy Block</span>
+                        </button>
+                      </div>
+                      <textarea
+                        id="backup-textarea-element"
+                        readonly
+                        rows="3"
+                        class="w-full bg-[#16161E]/50 border border-white/5 rounded-lg p-2 text-[7px] font-mono text-slate-400 focus:outline-none"
+                      ></textarea>
+                    </div>
+                  </div>
+
+                  <div class="pt-3">
+                    <span class="text-[9px] text-slate-500 font-mono block text-center uppercase tracking-widest">Secure Import / Restore</span>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Android Device Navigation Bar -->
+            <div class="h-6 flex items-center justify-around px-8 select-none z-30 opacity-60">
+              <div class="w-3.5 h-3.5 border-2 border-gray-400 rounded-sm"></div>
+              <div class="w-4.5 h-4.5 border-2 border-gray-400 rounded-full"></div>
+              <div class="w-3.5 h-3.5 flex items-center justify-center">
+                <span class="text-gray-400 font-bold text-lg leading-none select-none">‹</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FAQ ACCORDION MODULE -->
+  <section class="py-24 bg-gradient-to-b from-[#0A0A0B] to-[#16161E] relative border-t border-white/5" id="faq">
+    <div class="max-w-4xl mx-auto px-6 relative z-10">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <div class="inline-flex items-center gap-2 px-3 py-1 bg-[#9D8DF1]/10 border border-[#9D8DF1]/20 rounded-full text-xs text-[#D0BFFF] font-mono mb-4">
+          <i data-lucide="help-circle" class="w-3.5 h-3.5"></i>
+          <span>Got Questions?</span>
+        </div>
+        <h2 class="text-3xl md:text-4xl font-display font-bold text-white">
+          Frequently Asked <span class="text-[#D0BFFF]">Questions</span>
+        </h2>
+        <p class="text-slate-400 mt-4 text-xs md:text-sm">
+          Everything you need to know about our cryptographic model, offline backups, and password security.
+        </p>
+      </div>
+
+      <!-- FAQ list -->
+      <div class="space-y-4">
+        
+        <!-- Accordion 1 -->
+        <div class="bg-[#16161E]/40 border border-white/5 rounded-2xl overflow-hidden hover:border-[#9D8DF1]/20 transition-colors">
+          <button
+            onclick="toggleFAQAccordion(0)"
+            class="w-full py-5 px-6 flex items-center justify-between text-left font-display font-semibold text-white hover:text-[#D0BFFF] transition-colors gap-4"
+          >
+            <span class="text-sm md:text-base">How does Secure Vault protect my database without internet access?</span>
+            <i id="faq-arrow-0" data-lucide="chevron-down" class="w-4 h-4 text-[#9D8DF1] flex-shrink-0 transition-transform duration-300"></i>
+          </button>
+          <div id="faq-body-0" class="max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
+            <div class="px-6 pb-6 pt-1 text-xs md:text-sm text-slate-400 leading-relaxed border-t border-white/5 mt-1">
+              Secure Vault works entirely locally. Your master password goes through PBKDF2 with HMAC-SHA256 stretching to derive an encryption key. The database is encrypted right on your phone using standard AES-256-GCM. Because standard cryptography works completely offline, there's absolutely no need for internet servers.
+            </div>
+          </div>
+        </div>
+
+        <!-- Accordion 2 -->
+        <div class="bg-[#16161E]/40 border border-white/5 rounded-2xl overflow-hidden hover:border-[#9D8DF1]/20 transition-colors">
+          <button
+            onclick="toggleFAQAccordion(1)"
+            class="w-full py-5 px-6 flex items-center justify-between text-left font-display font-semibold text-white hover:text-[#D0BFFF] transition-colors gap-4"
+          >
+            <span class="text-sm md:text-base">What happens if I lose my phone or uninstall the app?</span>
+            <i id="faq-arrow-1" data-lucide="chevron-down" class="w-4 h-4 text-[#9D8DF1] flex-shrink-0 transition-transform duration-300"></i>
+          </button>
+          <div id="faq-body-1" class="max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
+            <div class="px-6 pb-6 pt-1 text-xs md:text-sm text-slate-400 leading-relaxed border-t border-white/5 mt-1">
+              Because Secure Vault is completely zero-knowledge, we hold no cloud backups or passwords. To protect your data, you should periodically generate an "AES-256 Encrypted Backup Block" from the settings screen. You can copy and save this block safely on a flash drive, email, or notebook, and use it to restore your vault later.
+            </div>
+          </div>
+        </div>
+
+        <!-- Accordion 3 -->
+        <div class="bg-[#16161E]/40 border border-white/5 rounded-2xl overflow-hidden hover:border-[#9D8DF1]/20 transition-colors">
+          <button
+            onclick="toggleFAQAccordion(2)"
+            class="w-full py-5 px-6 flex items-center justify-between text-left font-display font-semibold text-white hover:text-[#D0BFFF] transition-colors gap-4"
+          >
+            <span class="text-sm md:text-base">How does the biometric fingerprint unlock work?</span>
+            <i id="faq-arrow-2" data-lucide="chevron-down" class="w-4 h-4 text-[#9D8DF1] flex-shrink-0 transition-transform duration-300"></i>
+          </button>
+          <div id="faq-body-2" class="max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
+            <div class="px-6 pb-6 pt-1 text-xs md:text-sm text-slate-400 leading-relaxed border-t border-white/5 mt-1">
+              Secure Vault integrates directly with the Android Keystore system. If you enable Biometrics, a secure cryptographic subkey is kept in the phone's hardware Trusted Execution Environment (TEE) or StrongBox, allowing access only after a fingerprint match. Your real master credentials never leave secure system memory.
+            </div>
+          </div>
+        </div>
+
+        <!-- Accordion 4 -->
+        <div class="bg-[#16161E]/40 border border-white/5 rounded-2xl overflow-hidden hover:border-[#9D8DF1]/20 transition-colors">
+          <button
+            onclick="toggleFAQAccordion(3)"
+            class="w-full py-5 px-6 flex items-center justify-between text-left font-display font-semibold text-white hover:text-[#D0BFFF] transition-colors gap-4"
+          >
+            <span class="text-sm md:text-base">Is there any risk of brute-force attacks on my database?</span>
+            <i id="faq-arrow-3" data-lucide="chevron-down" class="w-4 h-4 text-[#9D8DF1] flex-shrink-0 transition-transform duration-300"></i>
+          </button>
+          <div id="faq-body-3" class="max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
+            <div class="px-6 pb-6 pt-1 text-xs md:text-sm text-slate-400 leading-relaxed border-t border-white/5 mt-1">
+              No. By using PBKDF2 stretching with thousands of HMAC-SHA-256 iterations, validating a single password candidate takes about 100-200ms on high-end chipsets. This makes trying millions of password options (brute-forcing) computationally impossible and expensive, protecting your vault against local thieves.
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- BOTTOM CALL-TO-ACTION SECTION -->
+  <section class="py-24 bg-gradient-to-b from-brand-dark to-[#0A0A0B] relative overflow-hidden border-t border-white/5">
+    <!-- Glow element -->
+    <div class="absolute bottom-[-10%] left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-[#9D8DF1]/5 blur-[120px] rounded-full pointer-events-none"></div>
+
+    <div class="max-w-4xl mx-auto px-6 text-center relative z-10 space-y-8">
+      
+      <div class="p-3 bg-[#9D8DF1]/10 border border-[#9D8DF1]/20 text-[#D0BFFF] rounded-full w-fit mx-auto shadow-md">
+        <i data-lucide="shield" class="w-8 h-8 stroke-[1.5]"></i>
+      </div>
+
+      <h2 class="text-3xl md:text-4xl font-display font-bold text-white tracking-tight leading-none">
+        Take Control Of Your Credentials.<br>
+        <span class="text-[#D0BFFF]">No Cloud Necessary.</span>
+      </h2>
+
+      <p class="text-slate-400 text-sm md:text-base max-w-xl mx-auto leading-relaxed">
+        Protect your keys inside an offline fortress. Download the open-source, audited Secure Vault package directly to your Android device.
+      </p>
+
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-md mx-auto">
+        <button onclick="openDownloadModal(true)" class="w-full sm:w-auto px-8 py-4 bg-[#9D8DF1] hover:bg-[#b1a4f5] text-[#0A0A0B] rounded-2xl text-sm font-bold tracking-wide shadow-lg shadow-[#9D8DF1]/10 active:scale-[0.98] transition-all flex items-center justify-center gap-2">
+          <i data-lucide="download" class="w-4.5 h-4.5 stroke-[2.5]"></i>
+          <span>Download Android APK</span>
+        </button>
+        <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl text-sm font-bold tracking-wide active:scale-[0.98] transition-all flex items-center justify-center gap-2 text-slate-300 hover:text-white">
+          <i data-lucide="github" class="w-4.5 h-4.5"></i>
+          <span>View Source on GitHub</span>
+        </a>
+      </div>
+
+      <!-- Verified Cryptographic checksum block -->
+      <div class="pt-6 border-t border-white/5 max-w-md mx-auto space-y-2 text-[10px] font-mono text-slate-500">
+        <p class="uppercase tracking-widest text-[8px] text-slate-500">Verified Cryptographic Checksums</p>
+        <div class="flex justify-between items-center bg-[#0D0D10] border border-white/5 rounded-lg p-2.5">
+          <span class="truncate select-all pr-2 text-left" id="apk-hash-string">f5d378ee2b8a7f920da78e382bc194dfbc293d20a103c803df3920ac39e802da</span>
+          <button
+            onclick="copyTextToClipboard(document.getElementById('apk-hash-string').innerText, this, 'hash-copied-label')"
+            class="text-[#9D8DF1] hover:text-white font-bold flex items-center gap-1 flex-shrink-0"
+          >
+            <i data-lucide="copy" class="w-3 h-3"></i>
+            <span id="hash-copied-label">Copy</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-[#0A0A0B] border-t border-white/5 py-12 text-xs text-slate-500">
+    <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+      
+      <div class="flex items-center gap-2">
+        <i data-lucide="shield" class="w-4 h-4 text-[#9D8DF1]"></i>
+        <span class="font-bold text-white font-display uppercase tracking-widest text-[10px]">Secure Vault</span>
+        <span class="text-white/10">|</span>
+        <span class="font-mono text-[9px]">100% OFFLINE TRUST</span>
+      </div>
+
+      <div class="flex gap-6 uppercase tracking-widest text-[10px]">
+        <a href="#features" class="hover:text-white transition-colors">Features</a>
+        <a href="#security" class="hover:text-white transition-colors">Architecture</a>
+        <a href="#faq" class="hover:text-white transition-colors">FAQ</a>
+      </div>
+
+      <div>
+        <p class="font-mono text-[9px] text-slate-600">
+          &copy; <span id="footer-year">2026</span> SECURE VAULT LABS. ALL RIGHTS RESERVED.
+        </p>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- MAIN DOWNLOAD MODAL OVERLAY -->
+  <div id="main-download-modal" class="fixed inset-0 z-50 bg-[#0A0A0B]/80 backdrop-blur-md flex items-center justify-center p-4 hidden">
+    <div class="bg-[#16161E] border border-white/5 rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl relative text-left">
+      
+      <!-- Modal Header -->
+      <div class="p-6 border-b border-white/5 flex justify-between items-center">
+        <div class="flex items-center gap-2">
+          <div class="p-1.5 bg-[#9D8DF1]/10 border border-[#9D8DF1]/20 text-[#D0BFFF] rounded-lg">
+            <i data-lucide="download" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h3 class="font-bold text-white font-display text-sm">Download Native APK</h3>
+            <p class="text-[10px] text-[#D0BFFF] font-mono uppercase tracking-widest mt-0.5">Secure Vault v1.2.0</p>
+          </div>
+        </div>
+        <button
+          onclick="openDownloadModal(false)"
+          class="p-1.5 hover:bg-[#21212B] rounded-full text-slate-400 hover:text-white transition-all"
+        >
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="p-6 space-y-4 text-xs md:text-sm">
+        
+        <div class="p-3.5 bg-[#9D8DF1]/10 border border-[#9D8DF1]/20 rounded-2xl flex gap-3 items-start">
+          <i data-lucide="info" class="w-4.5 h-4.5 text-[#D0BFFF] mt-0.5 flex-shrink-0"></i>
+          <div class="space-y-1 text-left">
+            <h4 class="font-semibold text-white font-display text-xs">Direct Package Installation</h4>
+            <p class="text-[11px] text-slate-400 leading-relaxed">
+              Because Secure Vault requested <strong>strictly zero network permissions</strong>, standard Google telemetry cannot function inside the app. For complete integrity, we distribute direct binaries.
+            </p>
+          </div>
+        </div>
+
+        <!-- Installation Instructions -->
+        <div class="space-y-2 text-left text-xs">
+          <span class="text-[9px] font-bold text-slate-500 uppercase font-mono tracking-widest">Installation Guidelines</span>
+          
+          <div class="space-y-2.5 font-sans">
+            <div class="flex gap-3">
+              <span class="flex-shrink-0 w-5 h-5 bg-[#9D8DF1]/10 border border-[#9D8DF1]/20 text-[#D0BFFF] rounded-full flex items-center justify-center font-mono text-[10px] font-bold">1</span>
+              <p class="text-slate-300 leading-relaxed pt-0.5 text-[11px]">
+                <strong>Enable Installation:</strong> Go to Settings ➜ Apps ➜ Special Access ➜ Install Unknown Apps, and toggle permission for your browser.
+              </p>
+            </div>
+            
+            <div class="flex gap-3">
+              <span class="flex-shrink-0 w-5 h-5 bg-[#9D8DF1]/10 border border-[#9D8DF1]/20 text-[#D0BFFF] rounded-full flex items-center justify-center font-mono text-[10px] font-bold">2</span>
+              <p class="text-slate-300 leading-relaxed pt-0.5 text-[11px]">
+                <strong>Run Package:</strong> Open the downloaded file <code>secure-vault-v1.2.0.apk</code> and tap Install. Android's offline Play Protect will verify hashes.
+              </p>
+            </div>
+            
+            <div class="flex gap-3">
+              <span class="flex-shrink-0 w-5 h-5 bg-[#9D8DF1]/10 border border-[#9D8DF1]/20 text-[#D0BFFF] rounded-full flex items-center justify-center font-mono text-[10px] font-bold">3</span>
+              <p class="text-slate-300 leading-relaxed pt-0.5 text-[11px]">
+                <strong>Verify Checksum:</strong> (Optional) Run a local SHA-256 hash check and match it against the official string shown below.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Signature copy box inside modal -->
+        <div class="space-y-1 text-left font-mono text-[10px] pt-1 border-t border-white/5">
+          <span class="text-[8px] text-slate-500 uppercase tracking-widest block">Official SHA-256 Package Signature:</span>
+          <div class="flex justify-between items-center bg-[#0A0A0B] border border-white/5 rounded-xl p-2.5 text-[9px]">
+            <span id="modal-apk-hash" class="truncate pr-2 text-slate-300">f5d378ee2b8a7f920da78e382bc194dfbc293d20a103c803df3920ac39e802da</span>
+            <button
+              onclick="copyTextToClipboard(document.getElementById('modal-apk-hash').innerText, this, 'modal-hash-copied-label')"
+              class="text-[#D0BFFF] hover:text-white font-bold flex items-center gap-1 flex-shrink-0"
+            >
+              <i data-lucide="copy" class="w-3 h-3"></i>
+              <span id="modal-hash-copied-label">Copy</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Action Buttons with Downloading state overlay -->
+      <div class="p-6 border-t border-white/5 bg-[#0D0D10]/50 flex flex-col gap-3 relative">
+        
+        <!-- Downloading Progress Container -->
+        <div id="download-progress-container" class="hidden space-y-2 py-2">
+          <div class="flex justify-between text-xs font-mono text-slate-400">
+            <span>Downloading secure package...</span>
+            <span id="download-progress-pct" class="text-[#D0BFFF] font-bold">0%</span>
+          </div>
+          <div class="w-full bg-white/5 h-2 rounded-full overflow-hidden">
+            <div id="download-progress-bar" class="bg-[#9D8DF1] h-full w-0 transition-all duration-300"></div>
+          </div>
+        </div>
+
+        <!-- Success notification inside modal -->
+        <div id="download-success-banner" class="hidden p-4 bg-green-950/20 border border-green-900/30 rounded-2xl flex gap-3 items-center shadow-lg">
+          <i data-lucide="check-circle" class="w-5 h-5 text-green-400 flex-shrink-0"></i>
+          <div class="text-left text-xs">
+            <h4 class="font-bold text-white leading-none">Package Download Completed</h4>
+            <p class="text-[10px] text-slate-400 mt-1">Binary <code>secure-vault-v1.2.0.apk</code> saved locally. Match hashes to verify.</p>
+          </div>
+        </div>
+
+        <div id="modal-action-buttons" class="flex flex-col sm:flex-row gap-3">
+          <button
+            type="button"
+            onclick="openDownloadModal(false)"
+            class="flex-1 bg-white/5 hover:bg-white/10 text-slate-300 font-semibold py-3 rounded-2xl text-xs text-center border border-white/10"
+          >Close Gate</button>
+          <button
+            type="button"
+            onclick="triggerApkDownload()"
+            class="flex-1 bg-[#9D8DF1] hover:brightness-110 text-[#0A0A0B] font-bold py-3 rounded-2xl text-xs text-center flex items-center justify-center gap-2 cursor-pointer shadow-lg active:scale-95 transition-all"
+          >
+            <i data-lucide="download" class="w-4 h-4 stroke-[2.5]"></i>
+            <span>Start Package Download</span>
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ============================================ -->
+  <!-- VANILLA JAVASCRIPT STATE ENGINE & RENDERING -->
+  <!-- ============================================ -->
+  <script>
+    // 1. DUMMY CREDENTIAL STATE DATABASE
+    let credentials = [
+      { id: '1', platform: 'Gmail', username: 'test@gmail.com', password: 'SuperSecretGMailPassword123!', category: 'Personal' },
+      { id: '2', platform: 'Chase Online Banking', username: 'chase_user99', password: 'fInAnCe_sEcUrItY_9083#', category: 'Finance' },
+      { id: '3', platform: 'Corporate Slack', username: 'deepak.k@work.corp', password: 'SlAcK_pAsS_wOrK_441!', category: 'Work' },
+      { id: '4', platform: 'Facebook Account', username: 'fb_deepak_kumar', password: 'SocialVaultPass998!!', category: 'Social' }
+    ];
+
+    // 2. RUNTIME SIMULATOR VARIABLES
+    let isUnlocked = false;
+    let currentSimulatorScreen = 'lock'; // 'lock' | 'dashboard' | 'settings'
+    let selectedCategory = 'All';
+    let searchQuery = '';
+    let revealedIds = new Set();
+    
+    // Passphrase Generator State
+    let newCategory = 'Personal';
+    let genLength = 16;
+    let useUpper = true;
+    let useLower = true;
+    let useDigits = true;
+    let useSymbols = true;
+
+    // Security Dials Settings State
+    let idleTimeout = '2 min';
+    let clipboardDelay = '30 sec';
+    let biometricEnabled = true;
+
+    // 3. PAGE INITIALIZATION
+    window.addEventListener('DOMContentLoaded', () => {
+      // Set year in footer
+      document.getElementById('footer-year').innerText = new Date().getFullYear();
+      
+      // Initialize Lucide Icons
+      lucide.createIcons();
+
+      // Render the simulator items
+      renderCategoryPills();
+      renderCredentials();
+
+      // Start the dynamic clock on the phone
+      startSimulatorClock();
+
+      // Start the animated Cryptographic Pipeline typing
+      startCryptoPipelineSimulation();
+    });
+
+    // 4. PHONE CLOCK FUNCTION
+    function startSimulatorClock() {
+      const clockElement = document.getElementById('simulator-clock');
+      function updateClock() {
+        const now = new Date();
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        clockElement.innerText = `${hours}:${minutes}`;
+      }
+      updateClock();
+      setInterval(updateClock, 30000); // Update clock every 30 seconds
+    }
+
+    // 5. ANIMATED CRYPTOGRAPHIC PIPELINE
+    function startCryptoPipelineSimulation() {
+      const pipelineMethod = document.getElementById('pipeline-method');
+      const pipelineProgress = document.getElementById('pipeline-progress');
+      const pipelineKey = document.getElementById('pipeline-key');
+
+      const keyStates = [
+        "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08",
+        "8c25aa262bfbc63ea9e421e421bf2bc68de3ca48de27ca36ca14bc3a4e15da33",
+        "fa99d816a3a1bf2bdfcf0f0da152abcb123cdca45ab8acbdf25baedfa11a22ba",
+        "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"
+      ];
+      let stateIdx = 0;
+
+      setInterval(() => {
+        // Reset pipeline progress bar width
+        pipelineProgress.style.width = '0%';
+        pipelineMethod.innerText = '➜ Stretching...';
+        
+        setTimeout(() => {
+          pipelineProgress.style.width = '100%';
+          pipelineMethod.innerText = '➜ PBKDF2 HMAC-SHA256';
+          pipelineKey.innerText = keyStates[stateIdx].slice(0, 24) + '...';
+          stateIdx = (stateIdx + 1) % keyStates.length;
+        }, 100);
+
+      }, 4000);
+    }
+
+    // 6. COPY TO CLIPBOARD COMMON HANDLER
+    function copyTextToClipboard(text, buttonElement, statusLabelId) {
+      navigator.clipboard.writeText(text).then(() => {
+        const originalHTML = buttonElement.innerHTML;
+        const statusLabel = document.getElementById(statusLabelId);
+        
+        if (statusLabel) {
+          const originalText = statusLabel.innerText;
+          statusLabel.innerText = "Copied!";
+          setTimeout(() => {
+            statusLabel.innerText = originalText;
+          }, 2000);
+        }
+
+        buttonElement.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5 text-green-400"></i>`;
+        lucide.createIcons();
+        
+        setTimeout(() => {
+          buttonElement.innerHTML = originalHTML;
+          lucide.createIcons();
+        }, 2000);
+      });
+    }
+
+    // 7. SIMULATOR SCREEN FLOW
+    function simGoToScreen(screenName) {
+      document.getElementById('sim-screen-lock').classList.add('hidden');
+      document.getElementById('sim-screen-dashboard').classList.add('hidden');
+      document.getElementById('sim-screen-settings').classList.add('hidden');
+
+      if (screenName === 'lock') {
+        document.getElementById('sim-screen-lock').classList.remove('hidden');
+      } else if (screenName === 'dashboard') {
+        document.getElementById('sim-screen-dashboard').classList.remove('hidden');
+        renderCredentials();
+      } else if (screenName === 'settings') {
+        document.getElementById('sim-screen-settings').classList.remove('hidden');
+        updateSettingsUI();
+      }
+      currentSimulatorScreen = screenName;
+    }
+
+    // 8. SIMULATOR UNLOCK WITH PASSWORD
+    function simUnlock() {
+      const pwdInput = document.getElementById('master-pwd-input');
+      const loader = document.getElementById('sim-keyloader');
+      
+      // Open loader screen
+      loader.classList.remove('hidden');
+
+      setTimeout(() => {
+        loader.classList.add('hidden');
+        isUnlocked = true;
+        pwdInput.value = ''; // clear password
+        simGoToScreen('dashboard');
+      }, 1000); // 1 sec simulation delay
+    }
+
+    // 9. SIMULATOR BIOMETRIC UNLOCK (INSTANT SCANNED ACCENT)
+    function simBiometricUnlock() {
+      const scanBtn = document.getElementById('fingerprint-scan-btn');
+      
+      // Flash biometric button green
+      scanBtn.classList.remove('text-[#D0BFFF]');
+      scanBtn.classList.add('text-green-400', 'bg-green-950/20', 'border-green-800/40');
+      
+      setTimeout(() => {
+        scanBtn.classList.add('text-[#D0BFFF]');
+        scanBtn.classList.remove('text-green-400', 'bg-green-950/20', 'border-green-800/40');
+        
+        isUnlocked = true;
+        simGoToScreen('dashboard');
+      }, 500);
+    }
+
+    // 10. SIMULATOR LOCK
+    function simLock() {
+      isUnlocked = false;
+      revealedIds.clear();
+      simGoToScreen('lock');
+    }
+
+    // 11. WIPE VAULT ACTION
+    function simWipeVault() {
+      if (confirm("Are you sure you want to WIPE THE VAULT? This will delete all credentials permanently (zero-knowledge reset simulation).")) {
+        credentials = [
+          { id: '1', platform: 'Gmail', username: 'test@gmail.com', password: 'SuperSecretGMailPassword123!', category: 'Personal' }
+        ];
+        simLock();
+      }
+    }
+
+    // 12. EYE HIDE/SHOW SECRETS TOGGLE
+    function togglePasswordReveal(id) {
+      if (revealedIds.has(id)) {
+        revealedIds.delete(id);
+      } else {
+        revealedIds.add(id);
+      }
+      renderCredentials();
+    }
+
+    // 13. MASTER PASSWORD EYE VISIBILITY
+    function toggleMasterPasswordVisibility() {
+      const input = document.getElementById('master-pwd-input');
+      const icon = document.getElementById('master-pwd-toggle-icon');
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.setAttribute('data-lucide', 'eye-off');
+      } else {
+        input.type = 'password';
+        icon.setAttribute('data-lucide', 'eye');
+      }
+      lucide.createIcons();
+    }
+
+    // 14. NEW CREDENTIAL FORM EYE VISIBILITY
+    function toggleNewPasswordVisibility() {
+      const input = document.getElementById('new-pwd-input');
+      const icon = document.getElementById('new-pwd-toggle-icon');
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.setAttribute('data-lucide', 'eye-off');
+      } else {
+        input.type = 'password';
+        icon.setAttribute('data-lucide', 'eye');
+      }
+      lucide.createIcons();
+    }
+
+    // 15. DYNAMICALLY RENDER CREDENTIAL ITEMS
+    function renderCredentials() {
+      const container = document.getElementById('credentials-list');
+      container.innerHTML = '';
+
+      const filtered = credentials.filter(c => {
+        const matchesSearch = c.platform.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                              c.username.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesCategory = selectedCategory === 'All' || c.category === selectedCategory;
+        return matchesSearch && matchesCategory;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-8 text-slate-500 text-[10px]">
+            No records match search
+          </div>
+        `;
+        return;
+      }
+
+      filtered.forEach(cred => {
+        const isRevealed = revealedIds.has(cred.id);
+        const card = document.createElement('div');
+        card.className = 'bg-[#16161E] border border-white/5 rounded-xl p-3.5 space-y-2.5 shadow-sm group hover:border-white/10 transition-all';
+        
+        card.innerHTML = `
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="text-[11px] font-bold text-white font-display leading-tight">${cred.platform}</h3>
+              <span class="text-[8px] bg-[#16161E] text-[#D0BFFF] font-mono px-1.5 py-0.5 rounded border border-[#9D8DF1]/20 mt-1 inline-block">
+                ${cred.category}
+              </span>
+            </div>
+            <div class="flex items-center gap-1.5 opacity-80 group-hover:opacity-100 transition-opacity">
+              <button
+                onclick="simDeleteCredential('${cred.id}', '${cred.platform}')"
+                class="p-1 hover:bg-white/5 rounded text-red-400 hover:text-red-300 cursor-pointer"
+                title="Delete Account"
+              >
+                <i data-lucide="trash-2" class="w-3 h-3"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="space-y-1.5 text-[9px] font-mono border-t border-white/5 pt-2">
+            <!-- Username section -->
+            <div class="flex items-center justify-between text-slate-400">
+              <div class="space-y-0.5">
+                <p class="text-[7px] text-slate-500 uppercase tracking-wider">Username</p>
+                <p class="text-slate-300 font-mono select-all break-all">${cred.username}</p>
+              </div>
+              <button
+                onclick="copyTextToClipboard('${cred.username}', this)"
+                class="p-1 hover:bg-white/5 rounded text-slate-500 hover:text-white transition-all flex-shrink-0 ml-1"
+              >
+                <i data-lucide="copy" class="w-3 h-3"></i>
+              </button>
+            </div>
+
+            <!-- Secret Password section -->
+            <div class="flex items-center justify-between text-slate-400">
+              <div class="space-y-0.5 flex-grow">
+                <p class="text-[7px] text-slate-500 uppercase tracking-wider">Secret Password</p>
+                <p class="text-[#D0BFFF]/90 font-mono select-all break-all">
+                  ${isRevealed ? cred.password : '••••••••••••••••'}
+                </p>
+              </div>
+              <div class="flex gap-0.5 flex-shrink-0">
+                <button
+                  onclick="togglePasswordReveal('${cred.id}')"
+                  class="p-1 hover:bg-white/5 rounded text-slate-500 hover:text-white transition-all"
+                >
+                  <i data-lucide="${isRevealed ? 'eye-off' : 'eye'}" class="w-3 h-3"></i>
+                </button>
+                <button
+                  onclick="copyTextToClipboard('${cred.password}', this)"
+                  class="p-1 hover:bg-white/5 rounded text-slate-500 hover:text-white transition-all"
+                >
+                  <i data-lucide="copy" class="w-3 h-3"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+
+      lucide.createIcons();
+    }
+
+    // 16. RENDERING CATEGORY PILLS
+    function renderCategoryPills() {
+      const container = document.getElementById('category-pills-container');
+      container.innerHTML = '';
+
+      const categories = ['All', 'Personal', 'Work', 'Finance', 'Social'];
+      categories.forEach(cat => {
+        const isActive = selectedCategory === cat;
+        const btn = document.createElement('button');
+        btn.onclick = () => onSelectCategory(cat);
+        btn.className = `px-3 py-1 rounded-lg font-medium border transition-all flex-shrink-0 cursor-pointer ${
+          isActive
+            ? 'bg-[#9D8DF1] text-[#0A0A0B] border-[#9D8DF1]'
+            : 'bg-[#16161E]/50 text-slate-400 border-white/5 hover:text-white'
+        }`;
+        btn.innerText = cat;
+        container.appendChild(btn);
+      });
+    }
+
+    // 17. CATEGORY CHANGER EVENT
+    function onSelectCategory(cat) {
+      selectedCategory = cat;
+      renderCategoryPills();
+      renderCredentials();
+    }
+
+    // 18. LIVE SEARCH KEY-UP EVENT
+    function onSearchChange(val) {
+      searchQuery = val;
+      renderCredentials();
+    }
+
+    // 19. DELETE ACTION
+    function simDeleteCredential(id, platform) {
+      if (confirm(`Remove stored credentials for ${platform}?`)) {
+        credentials = credentials.filter(c => c.id !== id);
+        renderCredentials();
+      }
+    }
+
+    // 20. NEW CREDENTIAL BOTTOM SHEET OVERLAY
+    function toggleNewCredentialModal(isOpen) {
+      const overlay = document.getElementById('sim-modal-overlay');
+      if (isOpen) {
+        overlay.classList.remove('hidden');
+      } else {
+        overlay.classList.add('hidden');
+      }
+    }
+
+    // 21. NEW CREDENTIAL FORM CATEGORY
+    function setNewCategory(cat) {
+      newCategory = cat;
+      const cats = ['Personal', 'Work', 'Finance', 'Social'];
+      cats.forEach(c => {
+        const btn = document.getElementById(`cat-btn-${c}`);
+        if (c === cat) {
+          btn.className = "flex-1 py-1.5 rounded-lg border text-[9px] font-medium transition-all bg-[#9D8DF1]/10 text-[#D0BFFF] border-[#9D8DF1]/20";
+        } else {
+          btn.className = "flex-1 py-1.5 rounded-lg border text-[9px] font-medium transition-all bg-[#16161E]/50 text-slate-400 border-white/5 hover:text-white";
+        }
+      });
+    }
+
+    // 22. PASSPHRASE GENERATION LENGTH SLIDER EVENT
+    function onLengthSliderChange(val) {
+      genLength = parseInt(val);
+      document.getElementById('length-val-display').innerText = val;
+    }
+
+    // 23. TOGGLE COMPONENT PARAMETERS FOR GENERATOR
+    function toggleGenParam(param) {
+      if (param === 'useUpper') useUpper = !useUpper;
+      else if (param === 'useLower') useLower = !useLower;
+      else if (param === 'useDigits') useDigits = !useDigits;
+      else if (param === 'useSymbols') useSymbols = !useSymbols;
+
+      // Update button visual styles
+      updateGenParamButtons();
+    }
+
+    function updateGenParamButtons() {
+      const items = [
+        { id: 'gen-param-upper', state: useUpper },
+        { id: 'gen-param-lower', state: useLower },
+        { id: 'gen-param-digits', state: useDigits },
+        { id: 'gen-param-symbols', state: useSymbols }
+      ];
+
+      items.forEach(item => {
+        const btn = document.getElementById(item.id);
+        if (item.state) {
+          btn.className = "py-1 rounded border text-center transition-all bg-[#9D8DF1]/10 text-[#D0BFFF] border-[#9D8DF1]/20";
+        } else {
+          btn.className = "py-1 rounded border text-center transition-all bg-[#16161E]/50 text-slate-500 border-white/5";
+        }
+      });
+    }
+
+    // 24. GENERATE PASSWORD STRING
+    function simGenerateSecureString() {
+      const upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      const lower = 'abcdefghijklmnopqrstuvwxyz';
+      const digits = '0123456789';
+      const symbols = '!@#$%^&*()_+-=[]{}|;:,.<>?';
+
+      let pool = '';
+      if (useUpper) pool += upper;
+      if (useLower) pool += lower;
+      if (useDigits) pool += digits;
+      if (useSymbols) pool += symbols;
+
+      if (!pool) pool = lower + digits; // fallback
+
+      let result = '';
+      for (let i = 0; i < genLength; i++) {
+        result += pool.charAt(Math.floor(Math.random() * pool.length));
+      }
+
+      document.getElementById('new-pwd-input').value = result;
+      
+      // Flash "GENERATED" tag
+      const copiedStatus = document.getElementById('generator-copied-status');
+      copiedStatus.classList.remove('hidden');
+      setTimeout(() => {
+        copiedStatus.classList.add('hidden');
+      }, 1500);
+    }
+
+    // 25. SAVE FORM INPUT
+    function onSaveCredential(e) {
+      e.preventDefault();
+      const platformInput = document.getElementById('new-platform-input');
+      const usernameInput = document.getElementById('new-username-input');
+      const pwdInput = document.getElementById('new-pwd-input');
+
+      if (!platformInput.value || !usernameInput.value || !pwdInput.value) return;
+
+      const newCred = {
+        id: Date.now().toString(),
+        platform: platformInput.value,
+        username: usernameInput.value,
+        password: pwdInput.value,
+        category: newCategory
+      };
+
+      credentials.unshift(newCred);
+      
+      // Reset inputs
+      platformInput.value = '';
+      usernameInput.value = '';
+      pwdInput.value = '';
+      setNewCategory('Personal');
+
+      toggleNewCredentialModal(false);
+      renderCredentials();
+    }
+
+    // 26. SETTINGS screen toggling state rendering
+    function updateSettingsUI() {
+      // 1. Update timeout pills active state
+      const timeouts = ['1 min', '2 min', '5 min', '10 min'];
+      timeouts.forEach(t => {
+        const cleanId = t.replace(' ', '');
+        const btn = document.getElementById(`timeout-btn-${cleanId}`);
+        if (t === idleTimeout) {
+          btn.className = "py-1.5 rounded border text-center transition-all bg-[#9D8DF1]/10 text-[#D0BFFF] border-[#9D8DF1]/20";
+        } else {
+          btn.className = "py-1.5 rounded border text-center transition-all bg-[#16161E]/50 text-slate-500 border-white/5";
+        }
+      });
+
+      // 2. Update delay pills active state
+      const delays = ['15 sec', '30 sec', '60 sec', '120 sec'];
+      delays.forEach(d => {
+        const cleanId = d.replace(' ', '');
+        const btn = document.getElementById(`delay-btn-${cleanId}`);
+        if (d === clipboardDelay) {
+          btn.className = "py-1.5 rounded border text-center transition-all bg-[#9D8DF1]/10 text-[#D0BFFF] border-[#9D8DF1]/20";
+        } else {
+          btn.className = "py-1.5 rounded border text-center transition-all bg-[#16161E]/50 text-slate-500 border-white/5";
+        }
+      });
+
+      // 3. Update biometric button switch state
+      const switchBtn = document.getElementById('biometric-toggle-switch-element');
+      const knob = document.getElementById('biometric-toggle-knob');
+      if (biometricEnabled) {
+        switchBtn.className = "w-8 h-4.5 rounded-full p-0.5 transition-all flex items-center bg-[#9D8DF1]";
+        knob.className = "w-3.5 h-3.5 rounded-full bg-black shadow transition-transform translate-x-3.5";
+      } else {
+        switchBtn.className = "w-8 h-4.5 rounded-full p-0.5 transition-all flex items-center bg-[#16161E]";
+        knob.className = "w-3.5 h-3.5 rounded-full bg-black shadow transition-transform translate-x-0";
+      }
+    }
+
+    function setIdleTimeout(t) {
+      idleTimeout = t;
+      updateSettingsUI();
+    }
+
+    function setClipboardDelay(d) {
+      clipboardDelay = d;
+      updateSettingsUI();
+    }
+
+    function toggleBiometricState() {
+      biometricEnabled = !biometricEnabled;
+      updateSettingsUI();
+    }
+
+    // 27. GENERATE BASE64 AES BACKUP CODE
+    function onGenerateBackupBlock() {
+      const btn = document.getElementById('export-btn-element');
+      const btnText = document.getElementById('export-btn-text');
+      const spinner = document.getElementById('export-spinner-icon');
+      const textareaContainer = document.getElementById('backup-textarea-container');
+      const textarea = document.getElementById('backup-textarea-element');
+
+      // Add loading state spinner rotation
+      spinner.classList.add('animate-spin');
+      btnText.innerText = "Encrypting Database...";
+
+      setTimeout(() => {
+        spinner.classList.remove('animate-spin');
+        btnText.innerText = "GENERATE ENCRYPTED BACKUP BLOCK";
+
+        // Generate base64 mock encrypted output
+        const backupObj = {
+          app: "SecureVault",
+          version: "1.2.0",
+          timestamp: Date.now(),
+          payload: btoa(JSON.stringify(credentials)),
+          securityDials: { idleTimeout, clipboardDelay }
+        };
+
+        const serialized = btoa(JSON.stringify(backupObj));
+        const formatted = serialized.match(/.{1,64}/g).join('\n');
+        
+        textarea.value = `----- BEGIN SECURE VAULT BACKUP BLOCK [AES-256] -----\n${formatted}\n----- END SECURE VAULT BACKUP BLOCK -----`;
+        
+        textareaContainer.classList.remove('hidden');
+      }, 800);
+    }
+
+    // 28. FAQ ACCORDION TRIGGER
+    function toggleFAQAccordion(idx) {
+      const body = document.getElementById(`faq-body-${idx}`);
+      const arrow = document.getElementById(`faq-arrow-${idx}`);
+      
+      // Toggle rotation
+      if (arrow.classList.contains('rotate-180')) {
+        arrow.classList.remove('rotate-180');
+        body.style.maxHeight = '0px';
+      } else {
+        arrow.classList.add('rotate-180');
+        body.style.maxHeight = body.scrollHeight + 'px';
+      }
+    }
+
+    // 29. APK DOWNLOAD POPUP CONTROL
+    function openDownloadModal(isOpen) {
+      const modal = document.getElementById('main-download-modal');
+      const actionButtons = document.getElementById('modal-action-buttons');
+      const progressContainer = document.getElementById('download-progress-container');
+      const successBanner = document.getElementById('download-success-banner');
+      
+      if (isOpen) {
+        modal.classList.remove('hidden');
+      } else {
+        modal.classList.add('hidden');
+        
+        // Reset download state values when closing
+        progressContainer.classList.add('hidden');
+        successBanner.classList.add('hidden');
+        actionButtons.classList.remove('hidden');
+      }
+    }
+
+    // 30. SIMULATE APK PACKAGE DOWNLOADING PROGRESS
+    function triggerApkDownload() {
+      const actionButtons = document.getElementById('modal-action-buttons');
+      const progressContainer = document.getElementById('download-progress-container');
+      const successBanner = document.getElementById('download-success-banner');
+      const progressBar = document.getElementById('download-progress-bar');
+      const progressPct = document.getElementById('download-progress-pct');
+
+      actionButtons.classList.add('hidden');
+      progressContainer.classList.remove('hidden');
+
+      let currentPct = 0;
+      progressBar.style.width = '0%';
+      progressPct.innerText = '0%';
+
+      const interval = setInterval(() => {
+        currentPct += Math.floor(Math.random() * 12) + 5;
+        if (currentPct >= 100) {
+          currentPct = 100;
+          clearInterval(interval);
+          
+          setTimeout(() => {
+            progressContainer.classList.add('hidden');
+            successBanner.classList.remove('hidden');
+
+            // Trigger the actual file download from the public folder
+            const link = document.createElement('a');
+            link.href = '/secure-vault-v1.2.0.apk';
+            link.download = 'secure-vault-v1.2.0.apk';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+          }, 400);
+        }
+        progressBar.style.width = `${currentPct}%`;
+        progressPct.innerText = `${currentPct}%`;
+      }, 150);
+    }
+  </script>
+</body>
+</html>
